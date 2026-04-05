@@ -471,17 +471,11 @@ function startApp(){
 function showToastSetup(msg){showToast(msg);}
 
 // ── SYNC ──
-async function fetchWithTimeout(url, timeout=8000){
-  const ctrl = new AbortController();
-  const timer = setTimeout(()=>ctrl.abort(), timeout);
-  try{
-    const res = await fetch(url, {redirect:'follow', signal:ctrl.signal, cache:'no-store'});
-    clearTimeout(timer);
-    return res;
-  }catch(e){
-    clearTimeout(timer);
-    throw e;
-  }
+function fetchWithTimeout(url, timeout=10000){
+  return Promise.race([
+    fetch(url, {redirect:'follow', cache:'no-store', mode:'cors'}),
+    new Promise((_,reject)=>setTimeout(()=>reject(new Error('timeout')), timeout))
+  ]);
 }
 async function syncNow(){
   if(!SCRIPT_URL)return;
