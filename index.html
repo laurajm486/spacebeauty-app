@@ -473,7 +473,7 @@ function showToastSetup(msg){showToast(msg);}
 // ── SYNC ──
 function fetchWithTimeout(url, timeout=10000){
   return Promise.race([
-    fetch(url, {redirect:'follow', cache:'no-store', mode:'cors'}),
+    fetch(url, {redirect:'follow', cache:'no-store'}),
     new Promise((_,reject)=>setTimeout(()=>reject(new Error('timeout')), timeout))
   ]);
 }
