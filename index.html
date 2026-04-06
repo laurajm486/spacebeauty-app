@@ -465,7 +465,7 @@ function startApp(){
   if(!url||!url.startsWith('https://script.google.com')){showToastSetup('올바른 URL을 붙여넣어 주세요');return;}
   SCRIPT_URL=url;
   localStorage.setItem('sb_url',url);
-  document.getElementById('setup').style.display='none';
+  var _s=document.getElementById('setup');if(_s)_s.style.display='none';
   syncNow();
 }
 function showToastSetup(msg){showToast(msg);}
