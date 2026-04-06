@@ -430,7 +430,7 @@ body{background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-seri
 <script>
 // ── DATA ──
 const GOAL = 1500;
-let SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxgbjcVYn6nWN7tfmmoEPmiBq4nTQnJtK4WYPPmzXsXXUQPzW6FKkuGLGyKzcFtrzzJ/exec';
+let SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwgQTmZ2UX9598xXlKMRIeGBk1T9r3InyDsWEEdGXOqx_06zzq8Ej1K8HT5Gc2jdnXL/exec';
 let initPrepaid = parseFloat(localStorage.getItem('sb_init_prepaid') || '0');
 let entries = JSON.parse(localStorage.getItem('sb_entries') || '[]');
 let customers = JSON.parse(localStorage.getItem('sb_customers') || '{}');
@@ -471,10 +471,12 @@ function startApp(){
 function showToastSetup(msg){showToast(msg);}
 
 // ── SYNC ──
-function fetchWithTimeout(url, timeout=10000){
+function fetchWithTimeout(url, timeout=12000){
   return Promise.race([
-    fetch(url, {redirect:'follow', cache:'no-store'}),
-    new Promise((_,reject)=>setTimeout(()=>reject(new Error('timeout')), timeout))
+    fetch(url),
+    new Promise(function(_,reject){
+      setTimeout(function(){ reject(new Error('timeout')); }, timeout);
+    })
   ]);
 }
 async function syncNow(){
